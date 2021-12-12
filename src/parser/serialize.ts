@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { SKIP, Bundle } from '../types'
 import { EmitSchedule, END, ERROR } from '../emit'
 
