@@ -1,7 +1,8 @@
 import { Source, tap, finalize, pipe, observe, observeLater, Deferred } from 'streamlets'
 
 import { Scheduler, timeout } from './scheduler'
-import { Bundle, END, ERROR } from './emission'
+import { Bundle } from './types'
+import { END, ERROR } from './emit'
 import { direct, RecordingSchedule } from './direct'
 
 

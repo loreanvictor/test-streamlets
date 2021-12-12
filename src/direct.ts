@@ -1,7 +1,9 @@
 import { Observation } from 'streamlets'
-import { schedule, Scheduler, timeout } from '.'
 
-import { SKIP, Bundle } from './emission'
+import { schedule } from './schedule'
+import { Scheduler, timeout } from './scheduler'
+import { SKIP, Bundle } from './types'
+import { parser } from './parser'
 
 
 export const START = Symbol()
@@ -12,52 +14,18 @@ export type RecordingSchedule = (Bundle | typeof SKIP | typeof START | typeof ST
 
 
 function parse(s: string) {
-  let i = 0
-  let current: string
-  const res: Bundle[] = [new Bundle()]
-
-  while ((current = s[i])) {
-    let skipped = false
-    const bundle = res[res.length - 1]
-
-    if (current === '>') {
-      bundle.push(START)
-    } else if (current === 'V') {
-      bundle.push(PULL)
-    } else if (current === '|') {
-      bundle.push(STOP)
-    } else if (current === '-') {
-      bundle.push(SKIP)
-      skipped = true
-    } else {
-      throw new Error('unexpected symbol')
-    }
-
-    const next = s[i + 1]
-    if (!next) {
-      break
-    }
-
-    if (next === '-') {
-      res.push(new Bundle())
-      i += 2
-    } else if (next === ',') {
-      if (skipped) {
-        throw new Error('cannot bundle a skip')
+  return parser(
+    token => {
+      if (token.content === '>') {
+        return START
+      } else if (token.content === '|') {
+        return STOP
+      } else if (token.content === 'V') {
+        return PULL
       }
-
-      const lookahead = s[i + 2]
-      if (!lookahead || !['>', 'V', '|'].includes(lookahead)) {
-        throw new Error('unexpected symbol')
-      }
-
-      i += 2
-    } else {
-      throw new Error('unexpected symbol')
     }
-  }
-
-  return res.map(b => b.prune())
+    , false
+  )(s)
 }
 
 

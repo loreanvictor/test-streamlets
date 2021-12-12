@@ -1,17 +1,14 @@
-import { useFakeTimers } from 'sinon'
-import { interval } from 'streamlets'
+import { debounce, pipe, map, filter } from 'streamlets'
+import { src, record, T, serialize } from '../src'
 
-import { src, record, START, SKIP, STOP, PULL, serialize, Bundle } from '../src'
-
-const clock = useFakeTimers()
-
-// const S = src([SKIP, SKIP, 'a', SKIP, new Bundle('b', 'e'), SKIP, 'c', SKIP, END])
 record(
-  interval(100),
-  '-->-----------|--------->---'
+  pipe(
+    src(T('--1-2---3, (4)---|')),
+    debounce(100),
+    filter(x => x > 3),
+    map(x => x * 10),
+  )
 )
   .then(serialize)
   .then(console.log)
 
-clock.tick(10000)
-clock.restore()

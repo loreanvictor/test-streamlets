@@ -5,7 +5,7 @@ import { Scheduler, timeout } from './scheduler'
 
 
 export function src(s: EmitSchedule, scheduler: Scheduler = timeout()) {
-  return source(sink => {
+  return source<any>(sink => {
     let started = false
 
     sink.greet(talkback({

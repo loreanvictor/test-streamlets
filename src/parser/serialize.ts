@@ -1,5 +1,5 @@
-import { SKIP, END, ERROR, Bundle } from './emission'
-import { EmitSchedule } from './emit'
+import { SKIP, Bundle } from '../types'
+import { EmitSchedule, END, ERROR } from '../emit'
 
 
 function serializeOne(v: any): string {

@@ -1,6 +1,4 @@
 export const SKIP = Symbol()
-export const END = Symbol()
-export const ERROR = Symbol()
 
 
 export class Bundle {
@@ -25,5 +23,3 @@ export class Bundle {
   }
 }
 
-
-export type Emission = typeof SKIP | typeof END | typeof ERROR | Bundle | any
