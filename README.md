@@ -13,7 +13,7 @@ npm i test-streamlets
 
 <br/>
 
-Marble testing is a useful technique to quickly test behavior of reactive streams in a readable manner. `test-streamlets` library provides
+Marble testing is a useful technique to quickly test behavior of reactive streams by specifying a timeline for events. `test-streamlets` library provides
 test-runner/framework agnostic utilities for marble testing [streamlets](https://github.com/loreanvictor/streamlet):
 
 ```ts
