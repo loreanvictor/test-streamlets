@@ -73,5 +73,21 @@
   "dependencies": {
     "chalk": "^4.0.0",
     "streamlets": "^0.4.7"
+  },
+  "nyc": {
+    "extends": "nyc-config-tsx",
+    "all": true,
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "exclude": [
+      "src/**/test/*",
+      "src/types/*"
+    ],
+    "reporter": [
+      "text",
+      "lcov"
+    ]
   }
 }
