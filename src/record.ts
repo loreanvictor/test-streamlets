@@ -64,3 +64,12 @@ export async function record(
 
   return res.map(b => b.prune())
 }
+
+
+export async function recordAll(
+  src: Source<any>,
+  ss: (RecordingSchedule | string)[],
+  scheduler: Scheduler = timeout()
+) {
+  return Promise.all(ss.map(s => record(src, s, scheduler)))
+}

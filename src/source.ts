@@ -4,7 +4,7 @@ import { emit, EmitSchedule } from './emit'
 import { Scheduler, timeout } from './scheduler'
 
 
-export function src(s: EmitSchedule, scheduler: Scheduler = timeout()) {
+export function src(s: EmitSchedule | string, scheduler: Scheduler = timeout()) {
   return source<any>(sink => {
     let started = false
 

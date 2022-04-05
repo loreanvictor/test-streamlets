@@ -13,7 +13,7 @@ export type Emission = typeof SKIP | typeof END | typeof ERROR | Bundle | any
 export type EmitSchedule = Emission[]
 
 
-export const T = parser(token => {
+export const timeline = parser(token => {
   if (token.content === '|') {
     return END
   } else if (token.content === 'X') {
@@ -44,13 +44,17 @@ function emitOne(s: Sink<any>, e: Emission, gate?: () => boolean) {
 
 
 export function emit(
-  s: EmitSchedule,
+  s: EmitSchedule | string,
   sink: Sink<any>,
   scheduler: Scheduler = timeout(),
   gate?: () => boolean
 ) {
-  schedule(
-    s.map(e => () => emitOne(sink, e, gate)),
-    scheduler
-  )
+  if (typeof s === 'string') {
+    emit(timeline(s), sink, scheduler, gate)
+  } else {
+    schedule(
+      s.map(e => () => emitOne(sink, e, gate)),
+      scheduler
+    )
+  }
 }

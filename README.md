@@ -18,15 +18,15 @@ test-runner/framework agnostic utilities for marble testing [streamlets](https:/
 
 ```ts
 import { buffer } from 'streamlets'
-import { record, src, T } from 'test-streamlets'
+import { record, src, serialize } from 'test-streamlets'
 
 const timeline    = '--1-2---3-4-5-------6-7-|'       // this is our source's emission timeline
 const observation = '>-----V-----V-V-V-V-------V'     // this is our sink's behavior timeline
 const expected    = '------1-----3-4-5---6-----7,|'   // this is how we expect the end result will be
 
-const source = src(T(timeline))                       // create a source from the timeline
+const source = src(timeline)                          // create a source from the timeline
 const buffered = buffer(source, 3)                    // buffer the source
 const recording = await record(buffered, observation) // record behavior of buffered source using given observation timeline
 
-expect(recording).to.eql(T(expected))                 // assert that the recording matches our expected timeline
+expect(serialize(recording)).to.eql(T(expected))      // assert that the recording matches our expected timeline
 ```
